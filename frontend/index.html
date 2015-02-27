@@ -15,14 +15,16 @@
 <body>
 <h1>Sonification / Charting Prototype</h1>
 <div id="chart"></div>
+<input type="button" value="Play" />
 
 </body>
+<script src="js/basic-audio.js"></script>
 <script>
 $(document).ready(function () {
 
      // console.log(healthColumns);
 	
-	var chart = c3.generate({
+	oer_sprint.chart = c3.generate({
 	    bindto: '#chart',
 	    data: {
 	    	x:'Day',

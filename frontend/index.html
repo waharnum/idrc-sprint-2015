@@ -27,7 +27,13 @@
     <label for="box-2">Benson</label><input type="checkbox" id="box-2" checked="checked"/>
     <label for="box-3">Chester</label><input type="checkbox" id="box-3" checked="checked"/>
 </div>
+<div style="padding: 2px">
 <input id="Play" type="button" value="Play" />
+</div>
+<div style="padding: 2px">
+<input id="PlayFlock" type="button" value="Play Alternative" />
+<input id="Stop" type="button" value="Stop" />
+</div>
 
 </body>
 
@@ -91,11 +97,16 @@ $(document).ready(function () {
 	    	}
 	    }
 	});
-
-	// var enviro = flock.init();
-	// enviro.play();
-
-	// var sound = oerSprint.synths.meowBand();
+	
+	$("#PlayFlock").click(function () {
+	    oer_sprint.enviro = flock.init();
+	    oer_sprint.enviro.play();
+	    var sound = oerSprint.synths.meowBand();
+	});
+	    
+    $("#Stop").click(function () {
+        oer_sprint.enviro.stop();
+    });
 });
 
 </script>

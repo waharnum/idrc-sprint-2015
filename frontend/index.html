@@ -22,6 +22,7 @@
 <div id="chart"></div>
 
 <h2 id="label-sonification">Sonification</h2>
+<div id="sonification-controls">
 <div>
     <label for="box-1">Agnes</label><input type="checkbox" id="box-1" checked="checked"/>
     <label for="box-2">Benson</label><input type="checkbox" id="box-2" checked="checked"/>
@@ -33,6 +34,7 @@
 <div style="padding: 2px">
 <input id="PlayFlock" type="button" value="Play Alternative" />
 <input id="Stop" type="button" value="Stop" />
+</div>
 </div>
 
 <h2 id="label-table">Table</h2>
@@ -54,12 +56,12 @@ $(document).ready(function () {
 		$("#cat-table").toggle();
 	})
 
-$("#label-table").click(function() {
-		$("#cat-table").toggle();
+$("#label-chart").click(function() {
+		$("#chart").toggle();
 	})
 
-$("#label-table").click(function() {
-		$("#cat-table").toggle();
+$("#label-sonification").click(function() {
+		$("#sonification-controls").toggle();
 	})
 
      // console.log(healthColumns);

@@ -25,12 +25,18 @@ $(document).ready(function () {
 	var chart = c3.generate({
 	    bindto: '#chart',
 	    data: {
+	    	x:'Day',
+	    	xFormat: '%Y%m%d %H%M%L',
 			url: 'catt.csv',
-			type: 'line'      
+			type: 'line'
 	    },
 	    axis: {
-	    	x: {
-	    		label: 'Day'
+	    	x: {	    		
+	    		label: 'Day',
+	    		type:'timeseries',
+	    		tick: {
+	    			format: '%Y-%m-%d'
+	    		}
 	    	},
 	    	y: {
 	    		label: 'Blood Pressure'

@@ -9,12 +9,10 @@ var oer_sprint = {};
 // Stereo
 var channels = 2;
 var sampleRate = audioCtx.sampleRate;
-// Create an empty two second stereo buffer at the
-// sample rate of the AudioContext
-var frameCount = audioCtx.sampleRate * 2.0;
+oer_sprint.duration = 2;
 
 oer_sprint.catteToBuffer = function (c, myArrayBuffer) {
-    var elemsPerSample = frameCount / c.length;
+    var elemsPerSample = oer_sprint.frameCount / c.length;
     var phase = 0;
     var freq = 440;
     var delta = 2 * Math.PI / sampleRate;
@@ -23,7 +21,7 @@ oer_sprint.catteToBuffer = function (c, myArrayBuffer) {
     for (var channel = 0; channel < channels; channel++) {
        // This gives us the actual array that contains the data
        var nowBuffering = myArrayBuffer.getChannelData(channel);
-       for (var i = 0; i < frameCount; i++) {
+       for (var i = 0; i < oer_sprint.frameCount; i++) {
            var sample = c[Math.floor(i / elemsPerSample)];
            freq = 10 * sample - 700;
            phase += freq * delta;
@@ -35,7 +33,8 @@ oer_sprint.catteToBuffer = function (c, myArrayBuffer) {
 
 
 oer_sprint.makeBuffer = function () {
-    var myArrayBuffer = audioCtx.createBuffer(2, frameCount, audioCtx.sampleRate);
+    oer_sprint.frameCount = audioCtx.sampleRate * oer_sprint.duration;    
+    var myArrayBuffer = audioCtx.createBuffer(2, oer_sprint.frameCount, audioCtx.sampleRate);
     for (var i = 0; i < oer_sprint.cattes.length; ++ i) {
         var catte = oer_sprint.cattes[i].bpArray;
         if (oer_sprint.selection[i]) {
@@ -74,6 +73,7 @@ var button = document.querySelector("#Play");
 
 button.onclick = function () {
     oer_sprint.selection = oer_sprint.getSelected();
+    oer_sprint.duration = +$("#Duration").val();
     var buffer = oer_sprint.makeBuffer();
     oer_sprint.playBuffer(buffer);
 };

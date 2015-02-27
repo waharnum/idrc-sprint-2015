@@ -56,6 +56,7 @@ oer_sprint.playBuffer = function (buffer) {
     source.connect(audioCtx.destination);
     // start the source playing
     source.start();
+    oer_sprint.source = source;
 };
 
 oer_sprint.isSelected = function (id) {

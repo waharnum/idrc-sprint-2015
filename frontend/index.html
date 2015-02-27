@@ -134,7 +134,14 @@ $("#label-table").click(function() {
 	});
 	    
     $("#Stop").click(function () {
-        oer_sprint.enviro.stop();
+        if (oer_sprint.enviro) {
+            oer_sprint.enviro.stop();
+            delete oer_sprint.enviro;
+        }
+        if (oer_sprint.source) {
+            oer_sprint.source.stop();
+            delete oer_sprint.source;
+        }
     });
 });
 

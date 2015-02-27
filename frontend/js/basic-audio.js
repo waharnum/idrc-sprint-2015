@@ -1,10 +1,10 @@
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-var button = document.querySelector('input');
+
 var oer_sprint = {};
 
-$.get("catt.json", function (catt) {
-    oer_sprint.catt = catt;
-});
+//$.get("catt.json", function (catt) {
+//    oer_sprint.catt = catt;
+//});
 
 // Stereo
 var channels = 2;
@@ -13,10 +13,7 @@ var sampleRate = audioCtx.sampleRate;
 // sample rate of the AudioContext
 var frameCount = audioCtx.sampleRate * 2.0;
 
-
-oer_sprint.makeBuffer = function () {
-    var myArrayBuffer = audioCtx.createBuffer(2, frameCount, audioCtx.sampleRate);
-    var c = oer_sprint.catt;
+oer_sprint.catteToBuffer = function (c, myArrayBuffer) {
     var elemsPerSample = frameCount / c.length;
     var phase = 0;
     var freq = 440;
@@ -28,13 +25,24 @@ oer_sprint.makeBuffer = function () {
        var nowBuffering = myArrayBuffer.getChannelData(channel);
        for (var i = 0; i < frameCount; i++) {
            var sample = c[Math.floor(i / elemsPerSample)];
-           sample = channel === 0 ? sample : (500 - sample);
-           freq = 6 * sample - 200;
+           freq = 10 * sample - 700;
            phase += freq * delta;
            // audio needs to be in [-1.0; 1.0]
-           nowBuffering[i] = Math.sin(phase) * 1;
+           nowBuffering[i] += Math.sin(phase) * 1;
        }
+    }  
+}
+
+
+oer_sprint.makeBuffer = function () {
+    var myArrayBuffer = audioCtx.createBuffer(2, frameCount, audioCtx.sampleRate);
+    for (var i = 0; i < oer_sprint.cattes.length; ++ i) {
+        var catte = oer_sprint.cattes[i].bpArray;
+        if (oer_sprint.selection[i]) {
+            oer_sprint.catteToBuffer(catte, myArrayBuffer);
+        }
     }
+
     return myArrayBuffer;
 };
 
@@ -51,7 +59,21 @@ oer_sprint.playBuffer = function (buffer) {
     source.start();
 };
 
+oer_sprint.isSelected = function (id) {
+    var elem = fluid.jById(id);
+    return elem.prop("checked");
+}
+
+oer_sprint.getSelected = function () {
+    return fluid.transform(["box-1", "box-2", "box-3"], function (id) {
+        return oer_sprint.isSelected(id);
+    });
+};
+
+var button = document.querySelector("#Play");
+
 button.onclick = function () {
+    oer_sprint.selection = oer_sprint.getSelected();
     var buffer = oer_sprint.makeBuffer();
     oer_sprint.playBuffer(buffer);
-}
+};

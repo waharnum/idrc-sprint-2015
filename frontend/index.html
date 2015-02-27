@@ -8,6 +8,7 @@
 <!-- Load d3.js and c3.js -->
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.9/c3.js" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 
 </head>
 
@@ -17,14 +18,26 @@
 
 </body>
 <script>
-var chart = c3.generate({
-    bindto: '#chart',
-    data: {
-      columns: [
-        ['agnes', 30, 200, 100, 400, 150, 250],
-        ['billy', 50, 20, 10, 40, 15, 25]
-      ]
-    }
-});
+$(document).ready(function () {
+
+     // console.log(healthColumns);
+	
+	var chart = c3.generate({
+	    bindto: '#chart',
+	    data: {
+			url: 'catt.csv',
+			type: 'line'      
+	    },
+	    axis: {
+	    	x: {
+	    		label: 'Day'
+	    	},
+	    	y: {
+	    		label: 'Blood Pressure'
+	    	}
+	    }
+	});	
+})
+
 </script>
 </html>

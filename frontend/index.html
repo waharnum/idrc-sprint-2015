@@ -8,6 +8,7 @@
 <!-- Load d3.js and c3.js -->
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.9/c3.js" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 
 </head>
 
@@ -17,14 +18,34 @@
 
 </body>
 <script>
-var chart = c3.generate({
-    bindto: '#chart',
-    data: {
-      columns: [
-        ['agnes', 30, 200, 100, 400, 150, 250],
-        ['billy', 50, 20, 10, 40, 15, 25]
-      ]
-    }
-});
+$(document).ready(function () {
+	
+	healthColumns = [];
+
+	d3.csv("/pet-health-series.csv")
+	 .row(function(d) { return d })
+     .get(function(error, rows) { 
+     	for(i=0; i<rows.length; i++) {
+     		var currentRow = rows[i];
+     		var petName = [currentRow.petname];
+			var petData = [20,30,40,50,60];
+			var petRow = petName.concat(petData);
+			healthColumns.push(petRow)
+     	}     	
+     });
+
+     console.log(healthColumns);
+	
+	var chart = c3.generate({
+	    bindto: '#chart',
+	    data: {
+	      columns: [
+	        ['agnes', 30, 200, 100, 400, 150, 250],
+	        ['billy', 50, 20, 10, 40, 15, 25]
+	      ]
+	    }
+	});	
+})
+
 </script>
 </html>

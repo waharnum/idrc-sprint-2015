@@ -14,14 +14,49 @@
 
 <body>
 <h1>Sonification / Charting Prototype</h1>
+<div id="cat-list">
+
+</div>
 <div id="chart"></div>
 
 </body>
 <script>
 $(document).ready(function () {
 
-     // console.log(healthColumns);
-	
+	function Cat(name, bpArray) {
+		this.name = name;
+		this.bpArray = bpArray;
+	}
+
+	var cats = [];
+	var catNames = [];
+
+    var parsedcsv = d3.csv("catt.csv")
+    .get(function(error, rows) { 
+    	var catName;
+    	for(i=0; i<Object.keys(rows[0]).length; i++) {
+    		currentKey = Object.keys(rows[0])[i];    		
+    		if(currentKey != "Day") {    		
+    		catNames.push(currentKey);
+    		
+    		}
+    	}
+    	
+    	for(c=0; c<catNames.length; c++) {
+    		
+    		bps = [];
+    		currCat = catNames[c];
+
+	    	for(j=0; j<rows.length; j++) {
+	    		currBp = rows[j][currCat];	    		
+	    		bps.push(currBp);
+	    	}	
+	    	cats.push(new Cat(currCat,bps));
+    	}
+    	
+    	console.log(cats);
+    	});
+
 	var chart = c3.generate({
 	    bindto: '#chart',
 	    data: {
@@ -43,6 +78,7 @@ $(document).ready(function () {
 	    	}
 	    }
 	});	
+	
 })
 
 </script>
